@@ -8,3 +8,7 @@ resolver = "3"
 
 [workspace.dependencies]
 radix_trie = "0.2.1"
+semver = "1.0.26"
+language-tags = "0.3.2"
+thiserror = "2.0.12"
+any-error = "0.1.0"
