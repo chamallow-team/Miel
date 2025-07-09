@@ -41,18 +41,18 @@ jobs:
       - name: Upload Linux CLI Binary
         uses: actions/upload-artifact@v4
         with:
-          name: Miel CLI
+          name: Miel CLI (Linux)
           path: target/release/miel_cli
 
       - name: Upload Windows CLI Binary
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: your-cli-windows
+          name: Miel CLI (Windows)
           path: target/x86_64-pc-windows-gnu/release/miel_cli.exe
 
       - name: Upload WASM Package
         uses: actions/upload-artifact@v4
         with:
-          name: your-wasm-package
+          name: Miel (wasm)
           path: ./miel_wasm/pkg
