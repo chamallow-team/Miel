@@ -1,0 +1,58 @@
+name: Release Build
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build_release:
+    name: Build Release Binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - name: setup toolchain
+        uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: stable
+          profile: minimal
+
+      - name: Build CLI (Linux)
+        run: cargo build --release --bin miel_cli
+
+      - name: Build WASM
+        run: |
+          rustup target add wasm32-unknown-unknown
+          cargo install wasm-pack
+          wasm-pack build --target web
+        working-directory: ./miel_wasm
+
+      - name: Setup cross-compilation for Windows
+        if: runner.os == 'Linux'
+        run: |
+          rustup target add x86_64-pc-windows-gnu
+          sudo apt-get update && sudo apt-get install -y gcc-mingw-w64-x86-64
+
+      - name: Build CLI (Windows)
+        if: runner.os == 'Linux'
+        run: cargo build --release --target x86_64-pc-windows-gnu --bin miel_cli
+
+      - name: Upload Linux CLI Binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: Miel CLI
+          path: target/release/miel_cli
+
+      - name: Upload Windows CLI Binary
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v3
+        with:
+          name: your-cli-windows
+          path: target/x86_64-pc-windows-gnu/release/miel_cli.exe
+
+      - name: Upload WASM Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: your-wasm-package
+          path: ./miel_wasm/pkg
