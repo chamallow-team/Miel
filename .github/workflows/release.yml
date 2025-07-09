@@ -10,7 +10,7 @@ jobs:
     name: Build Release Binaries
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Swatinem/rust-cache@v2
       - name: setup toolchain
         uses: hecrj/setup-rust-action@v1
@@ -39,20 +39,20 @@ jobs:
         run: cargo build --release --target x86_64-pc-windows-gnu --bin miel_cli
 
       - name: Upload Linux CLI Binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Miel CLI
           path: target/release/miel_cli
 
       - name: Upload Windows CLI Binary
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: your-cli-windows
           path: target/x86_64-pc-windows-gnu/release/miel_cli.exe
 
       - name: Upload WASM Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: your-wasm-package
           path: ./miel_wasm/pkg
