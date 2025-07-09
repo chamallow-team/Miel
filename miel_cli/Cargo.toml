@@ -3,5 +3,8 @@ name = "miel_cli"
 version = "0.1.0"
 edition = "2024"
 
+[lints]
+workspace = true
+
 [dependencies]
 miel = { path = "../miel_lib" }

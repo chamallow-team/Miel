@@ -3,6 +3,9 @@ name = "miel"
 version = "0.1.0"
 edition = "2024"
 
+[lints]
+workspace = true
+
 [dependencies]
 radix_trie = { workspace = true }
 semver = { workspace = true }
